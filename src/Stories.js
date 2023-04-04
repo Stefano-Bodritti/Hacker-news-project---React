@@ -5,15 +5,37 @@ import SearchForm from './SearchForm'
 import Buttons from './Buttons'
 
 const Stories = () => {
-  const {isLoading} = useGlobalContext();
+  const {isLoading, hits} = useGlobalContext();
 
   if (isLoading) {
     return <div className='loading'></div>
   }
 
-  return <h2>
-    stories
-  </h2>
+  return <section className='stories'>
+    {hits.map((story) => {
+      const {objectID, title, num_comments, url, points, author} = story;
+      return (
+        <article key={objectID} className="story">
+          <h4 className="title">{title}</h4>
+          <p className="info">
+            {points} points by <span>{author} | </span>
+            {num_comments} comments
+          </p>
+          <div>
+            <a
+              href={url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="read-link"
+            >
+              read more
+            </a>
+            <button className="remove-btn">remove</button>
+          </div>
+        </article>
+      );
+    })}
+  </section>
 }
 
 export default Stories
